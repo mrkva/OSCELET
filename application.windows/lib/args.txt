@@ -1,0 +1,3 @@
+
+OSCELET
+OSCELET.jar,core.jar,SimpleOpenNI.jar,oscP5.jar
