@@ -1,0 +1,64 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1038\cocoasubrtf350
+{\fonttbl\f0\fnil\fcharset0 Monaco;}
+{\colortbl;\red255\green255\blue255;\red191\green0\blue0;\red0\green0\blue191;\red0\green115\blue0;
+\red96\green96\blue96;}
+\paperw12240\paperh15840\vieww15960\viewh12820\viewkind0
+\deftab560
+\pard\pardeftab560\li1140\fi-1140\ql\qnatural
+
+\f0\fs18 \cf2 // scOSCELET\cf0 \
+\cf2 // supercollider implementation of OSCELET program\cf0 \
+\cf2 // by Jonas Gruska (cc) 2011\cf0 \
+\
+\
+\cf2 // get your local ip and port\cf0 \
+\cf3 NetAddr\cf0 .localAddr;\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab560\ql\qnatural
+\cf0 (\
+\pard\pardeftab720\ql\qnatural
+\cf0 ~oscelet = \cf3 OSCresponder\cf0 (\cf3 nil\cf0 , \cf4 '/OSCELET'\cf0 , \{\cf3 arg\cf0  time, responder, msg, addr;\
+	msg[1].switch(\
+		\cf4 '/SKEL_HEAD'\cf0 , \{~skel_head = [msg[2].value, msg[3].value, msg[4].value];\
+				  \},\
+		\cf4 '/SKEL_NECK'\cf0 , \{~skel_neck = [msg[2].value, msg[3].value, msg[4].value];\
+				  \},\
+		\cf4 '/SKEL_TORSO'\cf0 , \{~skel_torso = [msg[2].value, msg[3].value, msg[4].value];\
+				  \},\
+		\cf4 '/SKEL_LEFT_SHOULDER'\cf0 , \{~skel_left_shoulder = [msg[2].value, msg[3].value, msg[4].value];\
+				  \},\
+		\cf4 '/SKEL_LEFT_ELBOW'\cf0 , \{~skel_left_elbow = [msg[2].value, msg[3].value, msg[4].value];\
+				  \},\
+		\cf4 '/SKEL_LEFT_HAND'\cf0 , \{~skel_left_hand = [msg[2].value, msg[3].value, msg[4].value];\
+				  \},\
+		\cf4 '/SKEL_RIGHT_SHOULDER'\cf0 , \{~skel_right_shoulder = [msg[2].value, msg[3].value, msg[4].value];\
+				  \},\
+		\cf4 '/SKEL_RIGHT_ELBOW'\cf0 , \{~skel_right_elbow = [msg[2].value, msg[3].value, msg[4].value];\
+				  \},\
+		\cf4 '/SKEL_RIGHT_HAND'\cf0 , \{~skel_right_hand = [msg[2].value, msg[3].value, msg[4].value];\
+		\},	\
+	    \
+		\{ \cf5 "not getting good data"\cf0 .postln;\}\
+	);\
+	\
+	\cf2 //controling the frequencies of gendy with hands\cf0 \
+	a.set(\\up, ~skel_right_hand[1].value);\
+	a.set(\\down, ~skel_left_hand[1].value);\
+\}).add;\
+)\
+\cf2 // remove responder\cf0 \
+~oscelet.remove;\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab560\ql\qnatural\pardirnatural
+\cf0 (\
+\cf3 SynthDef\cf0 (\cf5 "Gendy"\cf0 , \{ \cf3 |am = 0.5, down = 40, up = 80|\cf0 \
+	\cf3 var\cf0  sig;\
+	sig = \cf3 Gendy1\cf0 .ar(minfreq:down, maxfreq:up);\
+	\cf3 Out\cf0 .ar([0,1], am * sig); \
+\}).load(s);\
+)\
+\
+a = Synth("Gendy")\
+a.set(\\up, 300)\
+a.set(\\down, 200)\
+a.set(\\am, 0.3)}
