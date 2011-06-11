@@ -17,10 +17,13 @@ float        zoomF =0.5f;
 float        rotX = radians(180);  // by default rotate the hole scene 180deg around the x-axis, 
 // the data from openni comes upside down
 float        rotY = radians(0);
+int sizex = 800;
+int sizey = 600;
+int n = 10;
 
 void setup()
 {
-  size(1024, 768, P3D);  // strange, get drawing error in the cameraFrustum if i use P3D, in opengl there is no problem
+  size(sizex, sizey, P3D);  // strange, get drawing error in the cameraFrustum if i use P3D, in opengl there is no problem
   context = new SimpleOpenNI(this);
 
   // disable mirror
@@ -49,7 +52,7 @@ void draw()
   context.update();
 
   background(0, 0, 0);
-
+  grid(10);
   // set the scene pos
   translate(width/2, height/2, 0);
   rotateX(rotX);
@@ -82,6 +85,7 @@ void draw()
   if (context.isTrackingSkeleton(1))
     drawSkeleton(1);
 
+  
   // draw the kinect cam
   //context.drawCamFrustum();
 }
@@ -133,7 +137,11 @@ void drawLimb(int userId, int jointType1, int jointType2)
   stroke(255, 0, 0, confidence * 200 + 55);
   line(jointPos1.x, jointPos1.y, jointPos1.z, 
   jointPos2.x, jointPos2.y, jointPos2.z);
-   
+  
+  
+  
+  
+
   switch(jointType1) {
   case 1:
     limb = "SKEL_HEAD";
@@ -161,12 +169,19 @@ void drawLimb(int userId, int jointType1, int jointType2)
     break;
   case 15:
     limb = "SKEL_RIGHT_HAND";
+    /*for (int i = 0; i < sizex; i+=sizex/n) {
+      for (int j = 0; j < sizey; j+=sizey/n) {*/
+      translate(0, 0, 1000);
+      println(jointPos1.x);
+    //}
+  //}
     break;
   }  
 
   OscMessage myMessage = new OscMessage("/OSCELET");
   myMessage.add("/"+limb);
-  myMessage.add(new float[] { jointPos1.x, jointPos1.y, jointPos1.z
+  myMessage.add(new float[] { 
+    jointPos1.x, jointPos1.y, jointPos1.z
   }
   );
   oscP5.send(myMessage, myRemoteLocation);
@@ -179,19 +194,19 @@ void onNewUser(int userId)
 {
   println("onNewUser - userId: " + userId);
   println("  start pose detection");
-  background(0,255,0);
+  background(0, 255, 0);
   context.startPoseDetection("Psi", userId);
 }
 
 void onLostUser(int userId)
 {
   println("onLostUser - userId: " + userId);
-  background(255,0,0);
+  background(255, 0, 0);
 }
 
 void onStartCalibration(int userId)
 {
-  background(255,255,0);
+  background(255, 255, 0);
   println("onStartCalibration - userId: " + userId);
 }
 
@@ -265,4 +280,27 @@ void keyPressed()
     break;
   }
 }
+
+
+void grid(int n) {
+  /*for (int i = 0; i < sizex; i+=sizex/n) {
+    stroke(255);
+    strokeWeight(5);
+    line(i, 0, i, sizey);
+  }
+  for (int i = 0; i < sizey; i+=sizey/n) {
+    stroke(255);
+    strokeWeight(5);
+    line(0, i, sizex, i);
+  }*/
+  stroke(205);
+  strokeWeight(3);
+  noFill();
+  for (int i = 0; i < sizex; i+=sizex/n) {
+    for (int j = 0; j < sizey; j+=sizey/n) {
+      rect(i, j, sizex/n, sizey/n);
+    }
+  }
+   
+  }
 
