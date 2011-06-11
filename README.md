@@ -23,4 +23,12 @@ Enjoy!
 
 Pure Data example interface:
 
-![Pure Data example interface](https://github.com/mrkva/OSCELET/raw/master/PureData/PureData.png))
+![Pure Data example interface](https://github.com/mrkva/OSCELET/raw/master/PureData/PureData.png)
+
+Max/MSP example interface prototype
+
+![MaxMSP example interface](https://github.com/mrkva/OSCELET/raw/master/interfaces/1_example.png)
+
+Max/MSP example interface
+
+![MaxMSP example interface](https://github.com/mrkva/OSCELET/raw/master/interfaces/1_example_max.png)
