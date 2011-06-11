@@ -20,3 +20,7 @@ Program is set up to send to 57120 (default Supercollider port). So far it's jus
 The whole processing part is built on top of Max Rheiner example for simple open ni library.
 
 Enjoy!
+
+Pure Data example interface:
+
+![Pure Data example interface](https://github.com/mrkva/OSCELET/raw/master/PureData/PureData.png))
